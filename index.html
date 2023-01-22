@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Generador de Lotto</title>
     <style>
         p {
             font-size: 30px;
@@ -24,10 +24,32 @@
             padding: 5px;
             margin-bottom: 15px;
         }
+        label {
+            width: 100%;
+            display: block;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        input {
+            margin: 8px;
+            font-size: max(16px, 1em);
+            font-family: inherit;
+            padding: 0.25em 0.5em;
+            background-color: #fff;
+            border-radius: 4px;
+            --input-border: #8b8a8b;
+            --input-focus-h: 245;
+            --input-focus-s: 100%;
+            --input-focus-l: 42%;
+            border: 2px solid var(--input-border);
+        }
+        h1 {
+            margin: 0;
+        }
     </style>
 </head>
 <body>
-    <label for="cantidad">Cantidad de numeros</label>
+    <label for="cantidad">Cantidad de numeros a generar:</label>
     <input type="number" id="cantidad" value="1">
     <h1>Ultimo numero Ganador:</h1>
     <P id="ultimo"></P>
