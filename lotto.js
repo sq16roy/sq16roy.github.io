@@ -79,6 +79,7 @@ const checkMasSale = (array) => {
 
 const generarNumeros = async () => {
     const numerosAyer = await getNumeros();
+    document.getElementById("ultimo").innerText = `(${numerosAyer.toString().replaceAll(',', ', ')})`;
     const array = [];
 
     do {
@@ -94,8 +95,9 @@ const generarNumeros = async () => {
 
 const listarNumeros = async () => {
     const result = [];
+    const cantidad = document.getElementById("cantidad").value;
     const listNodes = document.getElementById("lista");
-    listNodes.innerHTML = '';
+    listNodes.innerHTML = 'Generando';
 
     do {
         let tempArray = await generarNumeros();
@@ -103,9 +105,9 @@ const listarNumeros = async () => {
         if (validarExactitud(tempArray) && validarIzquierda(tempArray) && (tempArray[2] >= 10) && checkPrimos(tempArray) && checkMasSale(tempArray)){
             result.push(tempArray.sort((a,b)=>a-b));
         }
-    } while (result.length <= 9);
+    } while (result.length <= (cantidad - 1));
 
-    console.log(result);
+    listNodes.innerHTML = '';
 
     result.forEach(e => {
         let li = document.createElement('li');
