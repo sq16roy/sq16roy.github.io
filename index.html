@@ -46,6 +46,54 @@
         h1 {
             margin: 0;
         }
+        body {
+        font-family: Arial;
+        font-size: 16px;
+      }
+      .wrapper {
+        margin: 80px auto;
+        text-align: center;
+        width: 100%;
+        position: relative;
+      }
+      button {
+        display: inline-block;
+        background-color: black;
+        border-radius: 10px;
+        border: 4px double #cccccc;
+        color: #ffffff;
+        text-align: center;
+        font-size: 28px;
+        padding: 20px;
+        width: 200px;
+        transition: all 0.5s;
+        cursor: pointer;
+        margin: 5px;
+      }
+      button span {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        transition: 0.5s;
+      }
+      button span:after {
+        content: '\00bb';
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        right: -20px;
+        transition: 0.5s;
+      }
+      button:hover {
+        background-color: #7b38d8;
+      }
+      button:hover span {
+        padding-right: 25px;
+      }
+      button:hover span:after {
+        opacity: 1;
+        right: 0;
+      }
     </style>
 </head>
 <body>
@@ -53,7 +101,9 @@
     <input type="number" id="cantidad" value="1">
     <h1>Ultimo numero Ganador:</h1>
     <P id="ultimo"></P>
-    <button id="generador">Generar</button>
+    <div class="wrapper">
+        <button id="generador" class="button"><span>Generar</span></button>
+    </div>
     <ol id="lista">
         <li></li>
         <li></li>
