@@ -77,8 +77,7 @@ const checkMasSale = (array) => {
     return found;
 }
 
-const generarNumeros = async () => {
-    const numerosAyer = await getNumeros();
+const generarNumeros = (numerosAyer) => {
     document.getElementById("ultimo").innerText = `(${numerosAyer.toString().replaceAll(',', ', ')})`;
     const array = [];
 
@@ -94,13 +93,14 @@ const generarNumeros = async () => {
 }
 
 const listarNumeros = async () => {
+    const numerosAyer = await getNumeros();
     const result = [];
     const cantidad = document.getElementById("cantidad").value;
     const listNodes = document.getElementById("lista");
     listNodes.innerHTML = 'Generando';
 
     do {
-        let tempArray = await generarNumeros();
+        let tempArray = generarNumeros(numerosAyer);
 
         if (validarExactitud(tempArray) && validarIzquierda(tempArray) && (tempArray[2] >= 10) && checkPrimos(tempArray) && checkMasSale(tempArray)){
             result.push(tempArray.sort((a,b)=>a-b));
