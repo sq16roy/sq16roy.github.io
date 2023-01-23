@@ -93,11 +93,11 @@ const generarNumeros = (numerosAyer) => {
 }
 
 const listarNumeros = async () => {
+    const listNodes = document.getElementById("lista");
     listNodes.innerHTML = 'Generando';
     const numerosAyer = await getNumeros();
     const result = [];
     const cantidad = document.getElementById("cantidad").value;
-    const listNodes = document.getElementById("lista");
    
 
     do {
