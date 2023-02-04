@@ -50,7 +50,7 @@ const getNumeros = async () => {
     const response = await fetch('https://integration.jps.go.cr//api/App/lotto/page');
     const numeros = await response.json();
 
-    return numeros[0].numeros;
+    return numeros;
 };
 
 const randonNumber = () => {
@@ -77,14 +77,41 @@ const checkMasSale = (array) => {
     return found;
 }
 
+const checkPares = (array) => {
+    let i = 0;
+    let tempArray = [];
+
+    do {
+        if(array[i] % 2 == 0) {
+            tempArray.push(array[i]);
+        }
+        i = i + 1;
+    } while (i < 4);
+
+    return tempArray.length < 3 ? false : true;
+}
+
+const validarUltimosGanadores = (array, ganadores) => {
+    let result = true;
+    ganadores.forEach(element => {
+        if (element.sort((a,b)=>a-b).toString() == array.sort((a,b)=>a-b).toString()) {
+            result = false;
+        }
+    });
+
+    return result;
+}
+
 const generarNumeros = (numerosAyer) => {
-    document.getElementById("ultimo").innerText = `(${numerosAyer.toString().replaceAll(',', ', ')})`;
+    const {numeros, premiosLotto} = numerosAyer;
+    document.getElementById("ultimo").innerText = `(${numeros.toString().replaceAll(',', ', ')})`;
+    document.getElementById("acumulado").innerText = `${premiosLotto.acumulado} colones`;
     const array = [];
 
     do {
         let tempNumber = randonNumber();
 
-        if (!array.includes(tempNumber) && checkConsecutive(tempNumber, array) && !numerosAyer.includes(tempNumber)){
+        if (!array.includes(tempNumber) && checkConsecutive(tempNumber, array) && !numeros.includes(tempNumber)){
             array.push(tempNumber);
         }
     } while (array.length <= 4);
@@ -97,13 +124,22 @@ const listarNumeros = async () => {
     listNodes.innerHTML = 'Generando';
     const numerosAyer = await getNumeros();
     const result = [];
+    const ganadoresUlmimosMeses = numerosAyer.map(e => e.numeros);
     const cantidad = document.getElementById("cantidad").value;
-   
+   console.log(ganadoresUlmimosMeses);
 
     do {
-        let tempArray = generarNumeros(numerosAyer);
+        let tempArray = generarNumeros(numerosAyer[0]);
 
-        if (validarExactitud(tempArray) && validarIzquierda(tempArray) && (tempArray[2] >= 10) && checkPrimos(tempArray) && checkMasSale(tempArray)){
+        if (
+            validarExactitud(tempArray) && 
+            validarIzquierda(tempArray) && 
+            (tempArray[2] >= 10) && 
+            checkPrimos(tempArray) && 
+            checkMasSale(tempArray) && 
+            checkPares(tempArray) &&
+            validarUltimosGanadores(tempArray, ganadoresUlmimosMeses)
+        ){
             result.push(tempArray.sort((a,b)=>a-b));
         }
     } while (result.length <= (cantidad - 1));
