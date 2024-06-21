@@ -5,106 +5,115 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generador de Lotto</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        h1 {
+            margin: 20px 0;
+            color: #333;
+            text-align: center;
+        }
         p {
-            font-size: 30px;
-            color: black;
+            font-size: 1.2rem;
+            color: #555;
         }
         #lista {
-            font-size: 30px;
-            color: red;
+            font-size: 1.2rem;
+            color: #e63946;
             font-weight: bold;
-            padding-left: 15%;
+            min-width: 175px;
+            margin-top: 20px;
         }
         #ultimo {
             font-weight: bold;
-            color: purple;
-            font-size: 43px;
+            color: #6a0572;
+            font-size: 2rem;
             margin: 5px;
             padding: 5px;
             margin-bottom: 15px;
         }
         label {
-            width: 100%;
-            display: block;
-            font-size: 20px;
+            font-size: 1.2rem;
             font-weight: bold;
+            margin-top: 20px;
+            color: #333;
         }
         input {
-            margin: 8px;
-            font-size: max(16px, 1em);
-            font-family: inherit;
-            padding: 0.25em 0.5em;
-            background-color: #fff;
-            border-radius: 4px;
-            --input-border: #8b8a8b;
-            --input-focus-h: 245;
-            --input-focus-s: 100%;
-            --input-focus-l: 42%;
-            border: 2px solid var(--input-border);
+            margin: 8px 0;
+            font-size: 1rem;
+            padding: 0.5em 1em;
+            border-radius: 8px;
+            border: 2px solid #8b8a8b;
+            width: 100%;
+            max-width: 200px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
         }
-        h1 {
-            margin: 0;
+        input:focus {
+            border-color: #6a0572;
+            outline: none;
         }
-        body {
-        font-family: Arial;
-        font-size: 16px;
-      }
-      .wrapper {
-        margin: 80px auto;
-        text-align: center;
-        width: 100%;
-        position: relative;
-      }
-      button {
-        display: inline-block;
-        background-color: black;
-        border-radius: 10px;
-        border: 4px double #cccccc;
-        color: #ffffff;
-        text-align: center;
-        font-size: 28px;
-        padding: 20px;
-        width: 200px;
-        transition: all 0.5s;
-        cursor: pointer;
-        margin: 5px;
-      }
-      button span {
-        cursor: pointer;
-        display: inline-block;
-        position: relative;
-        transition: 0.5s;
-      }
-      button span:after {
-        content: '\00bb';
-        position: absolute;
-        opacity: 0;
-        top: 0;
-        right: -20px;
-        transition: 0.5s;
-      }
-      button:hover {
-        background-color: #7b38d8;
-      }
-      button:hover span {
-        padding-right: 25px;
-      }
-      button:hover span:after {
-        opacity: 1;
-        right: 0;
-      }
+        .wrapper {
+            text-align: center;
+            width: 100%;
+            position: relative;
+        }
+        button {
+            background-color: #6a0572;
+            border-radius: 50px;
+            border: none;
+            color: #ffffff;
+            font-size: 1.5rem;
+            padding: 15px 30px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        button span {
+            transition: padding-right 0.3s;
+        }
+        button:hover {
+            background-color: #9d4edd;
+            transform: scale(1.05);
+        }
+        button:hover span {
+            padding-right: 25px;
+        }
+        button span:after {
+            content: '\00bb';
+            opacity: 0;
+            transition: opacity 0.3s, right 0.3s;
+            position: absolute;
+            top: 15px;
+            left: 120px;
+        }
+        button:hover span:after {
+            opacity: 1;
+            right: 0;
+        }
+        #acumulado, #ultimo {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-    <label for="cantidad">Cantidad de numeros a generar:</label>
-    <input type="number" id="cantidad" value="10">
-    <h1>Ultimo numero Ganador:</h1>
-    <P id="ultimo"></P>
-    <h1>El Acumulado es de:</h1>
-    <P id="acumulado"></P>
+    <label for="cantidad">Cantidad de números a generar:</label>
+    <input type="number" id="cantidad" value="10" max="1000" aria-label="Cantidad de números a generar">
+    <h1>Último número ganador:</h1>
+    <p id="ultimo" aria-live="polite"></p>
+    <h1>El acumulado es de:</h1>
+    <p id="acumulado" aria-live="polite"></p>
     <div class="wrapper">
-        <button id="generador" class="button"><span>Generar</span></button>
+        <button id="generador" class="button" aria-label="Generar números de Lotto"><span>Generar</span></button>
     </div>
     <ol id="lista">
         <li></li>
@@ -118,6 +127,6 @@
         <li></li>
         <li></li>
     </ol>
-    <script src="lotto.js"></script>
+    <script src="logic.js"></script>
 </body>
 </html>
