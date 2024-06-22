@@ -1,4 +1,19 @@
-// Obtener datos de la API
+// Función para obtener datos de un archivo JSON
+const getHistoricalData = async () => {
+	const response = await fetch("historicalData.json");
+	const data = await response.json();
+	console.log(data);
+	return data;
+};
+
+// Función para formatear los datos históricos
+const formatHistoricalData = (data) => {
+	return data.map((entry) =>
+		entry.results_winnerresults.split(",").map((num) => parseInt(num, 10))
+	);
+};
+
+// Función para obtener datos de la API
 const getNumeros = async () => {
 	const response = await fetch(
 		"https://integration.jps.go.cr/api/App/lotto/page"
@@ -106,8 +121,12 @@ const generateLottoNumbers = (lastDraw, pastDraws, count = 10) => {
 		lastDraw
 	) => {
 		let selectedNumbers = [];
-		const availableHotNumbers = hotNumbers.filter((num) => !lastDraw.includes(num));
-		const availableColdNumbers = coldNumbers.filter((num) => !lastDraw.includes(num));
+		const availableHotNumbers = hotNumbers.filter(
+			(num) => !lastDraw.includes(num)
+		);
+		const availableColdNumbers = coldNumbers.filter(
+			(num) => !lastDraw.includes(num)
+		);
 
 		selectedNumbers = selectedNumbers.concat(
 			selectNumbersFromPool(availableHotNumbers, 2)
@@ -304,14 +323,18 @@ const generateLottoNumbers = (lastDraw, pastDraws, count = 10) => {
 
 // Obtener los números y generar las combinaciones
 const main = async () => {
-	const data = await getNumeros();
+	const historicalData = await getHistoricalData(); // Obtener datos históricos del archivo JSON
+	const historicalDraws = formatHistoricalData(historicalData); // Formatear los datos históricos
+	const apiData = await getNumeros();
 
-	const pastDraws = data.map((draw) => draw.numeros);
-	const lastDraw = pastDraws[0];
+	const pastDraws = historicalDraws.concat(
+		apiData.map((draw) => draw.numeros)
+	);
+	const lastDraw = apiData[0].numeros;
 
 	const count = parseInt(document.getElementById("cantidad").value, 10);
 	const combinations = generateLottoNumbers(lastDraw, pastDraws, count);
-	displayResults(data, combinations);
+	displayResults(apiData, combinations);
 };
 
 const displayResults = (data, combinations) => {
