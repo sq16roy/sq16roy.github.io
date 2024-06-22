@@ -7,12 +7,26 @@ const getHistoricalData = async () => {
 
 // Función para formatear los datos históricos y filtrar números inválidos
 const formatHistoricalData = (data) => {
-	return data.map((entry) =>
-		entry.results_winnerresults
-			.split(",")
-			.map((num) => parseInt(num, 10))
-			.filter((num) => num >= 1 && num <= 40)
+	console.log(
+		data
+			.map((entry) =>
+				entry.results_winnerresults
+					.split(",")
+					.map((num) => parseInt(num, 10))
+					.filter((num) => num >= 1 && num <= 40)
+			)
+			.filter((arr) => arr.length >= 5)
+			.slice(-250)
 	);
+	return data
+		.map((entry) =>
+			entry.results_winnerresults
+				.split(",")
+				.map((num) => parseInt(num, 10))
+				.filter((num) => num >= 1 && num <= 40)
+		)
+		.filter((arr) => arr.length >= 5)
+		.slice(-250);
 };
 
 // Función para obtener datos de la API
@@ -333,7 +347,7 @@ const generateLottoNumbers = (lastDraw, pastDraws, count = 10) => {
 
 // Obtener los números y generar las combinaciones
 const main = async () => {
-	const historicalData = await getHistoricalData(); // Obtener datos históricos del archivo JSON
+	const historicalData = await getHistoricalData();
 	const historicalDraws = formatHistoricalData(historicalData); // Formatear los datos históricos
 	const apiData = await getNumeros();
 
