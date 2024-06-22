@@ -2,14 +2,16 @@
 const getHistoricalData = async () => {
 	const response = await fetch("historicalData.json");
 	const data = await response.json();
-	console.log(data);
 	return data;
 };
 
-// Función para formatear los datos históricos
+// Función para formatear los datos históricos y filtrar números inválidos
 const formatHistoricalData = (data) => {
 	return data.map((entry) =>
-		entry.results_winnerresults.split(",").map((num) => parseInt(num, 10))
+		entry.results_winnerresults
+			.split(",")
+			.map((num) => parseInt(num, 10))
+			.filter((num) => num >= 1 && num <= 40)
 	);
 };
 
@@ -89,11 +91,19 @@ const generateLottoNumbers = (lastDraw, pastDraws, count = 10) => {
 		}
 		draws.forEach((draw) => {
 			draw.forEach((num) => {
-				draw.forEach((otherNum) => {
-					if (num !== otherNum) {
-						clusters[num].add(otherNum);
-					}
-				});
+				if (num >= 1 && num <= 40) {
+					// Verificación adicional
+					draw.forEach((otherNum) => {
+						if (
+							otherNum >= 1 &&
+							otherNum <= 40 &&
+							num !== otherNum
+						) {
+							// Verificación adicional
+							clusters[num].add(otherNum);
+						}
+					});
+				}
 			});
 		});
 		return clusters;
